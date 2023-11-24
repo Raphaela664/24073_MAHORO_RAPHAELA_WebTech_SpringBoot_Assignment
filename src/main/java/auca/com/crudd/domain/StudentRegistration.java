@@ -1,41 +1,42 @@
 package auca.com.crudd.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class StudentRegistration {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="reg_no")
+    private Long id;
+
     private LocalDate registrationDate;
     @OneToOne
     private Student student;
     @ManyToOne
+    @JoinColumn(name = "unit_id")
     private AcademicUnit academicUnit;
     @OneToOne
     private Semester semester;
 
+    @OneToMany(mappedBy = "studentRegistration")
+    @JsonBackReference
+    private List<StudentCourse> courses;
+
     public StudentRegistration() {
     }
 
-    public StudentRegistration(UUID id, LocalDate registrationDate, Student student, AcademicUnit academicUnit, Semester semester) {
-        this.id = id;
-        this.registrationDate = registrationDate;
-        this.student = student;
-        this.academicUnit = academicUnit;
-        this.semester = semester;
-    }
-
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,5 +70,29 @@ public class StudentRegistration {
 
     public void setSemester(Semester semester) {
         this.semester = semester;
+    }
+
+    public List<StudentCourse> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<StudentCourse> courses) {
+        this.courses = courses;
+    }
+
+    public StudentRegistration(Long id) {
+        this.id = id;
+    }
+
+    public StudentRegistration(Semester semester) {
+        this.semester = semester;
+    }
+
+    public StudentRegistration(Student student) {
+        this.student = student;
+    }
+
+    public StudentRegistration(AcademicUnit academicUnit) {
+        this.academicUnit = academicUnit;
     }
 }

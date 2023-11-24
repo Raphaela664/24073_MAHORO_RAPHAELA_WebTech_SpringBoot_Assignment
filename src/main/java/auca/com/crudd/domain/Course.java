@@ -1,9 +1,8 @@
 package auca.com.crudd.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import org.hibernate.annotations.ManyToAny;
 
 import java.util.UUID;
@@ -11,53 +10,59 @@ import java.util.UUID;
 @Entity
 public class Course {
     @Id
-    private UUID Course_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="course_id")
+    private Long Course_id;
+    @ManyToOne
+   private CourseDefinition definition;
    @ManyToOne
-   private CourseDefinition Definition;
-   @ManyToOne
-   private AcademicUnit Unit;
+   private AcademicUnit unit;
 
    @ManyToOne
-
    private Teacher tutor;
 
    @ManyToOne
+
     private Teacher assistant;
 
    @ManyToOne
+
    private Semester semester;
 
-    public Course(UUID course_id, CourseDefinition definition, AcademicUnit unit, Teacher tutor, Teacher assistant, Semester semester) {
+    public Course() {
+    }
+
+    public Course(Long course_id, CourseDefinition definition, AcademicUnit unit, Teacher tutor, Teacher assistant, Semester semester) {
         Course_id = course_id;
-        Definition = definition;
-        Unit = unit;
+        this.definition = definition;
+        this.unit = unit;
         this.tutor = tutor;
         this.assistant = assistant;
         this.semester = semester;
     }
 
-    public UUID getCourse_id() {
+    public Long getCourse_id() {
         return Course_id;
     }
 
-    public void setCourse_id(UUID course_id) {
+    public void setCourse_id(Long course_id) {
         Course_id = course_id;
     }
 
     public CourseDefinition getDefinition() {
-        return Definition;
+        return definition;
     }
 
     public void setDefinition(CourseDefinition definition) {
-        Definition = definition;
+        this.definition = definition;
     }
 
     public AcademicUnit getUnit() {
-        return Unit;
+        return unit;
     }
 
     public void setUnit(AcademicUnit unit) {
-        Unit = unit;
+        this.unit = unit;
     }
 
     public Teacher getTutor() {
@@ -84,7 +89,8 @@ public class Course {
         this.semester = semester;
     }
 
-    public Course() {
+    public Course(AcademicUnit unit, Semester semester) {
+        this.unit = unit;
+        this.semester = semester;
     }
-
 }

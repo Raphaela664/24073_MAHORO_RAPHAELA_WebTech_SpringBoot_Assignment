@@ -26,7 +26,7 @@ public class TeacherService {
         return teacherRepository.findAll();
 
     }
-    public String deleteTeacher(UUID id){
+    public String deleteTeacher(Long id){
         if (id != null){
             teacherRepository.deleteById(id);
             return "Teacher deleted successfully";
@@ -35,7 +35,7 @@ public class TeacherService {
         }
     }
 
-    public Teacher FindTeacher(UUID id){
+    public Teacher FindTeacher(Long id){
         if (id != null) {
             Teacher teacher = teacherRepository.findById(id).get();
             return teacher;
@@ -45,12 +45,18 @@ public class TeacherService {
         }
     }
 
-    public String UpdateTeacher(UUID id, Teacher teacher){
+    public String UpdateTeacher(Long id, Teacher teacher){
         if (id != null) {
             Teacher teacherFound = teacherRepository.findById(id).get();
-            teacherFound.setNames(teacher.getNames());
-            teacherFound.setQualification(teacher.getQualification());
-            teacherFound.setTeacher_code(teacher.getTeacher_code());
+            if(teacherFound.getNames() != null) {
+                teacherFound.setNames(teacher.getNames());
+            }
+            if(teacherFound.getQualification() != null) {
+                teacherFound.setQualification(teacher.getQualification());
+            }
+            if(teacherFound.getTeacher_code() != null) {
+                teacherFound.setTeacher_code(teacher.getTeacher_code());
+            }
             teacherRepository.save(teacherFound);
             return "teacher updated successfully";
         }

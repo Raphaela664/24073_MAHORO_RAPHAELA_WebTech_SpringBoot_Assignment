@@ -1,16 +1,14 @@
 package auca.com.crudd.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
 @Entity
 public class Teacher {
     @Id
-    private UUID ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ID;
 
     private String teacher_code;
 
@@ -27,18 +25,18 @@ public class Teacher {
         return this.names;
     }
 
-    public Teacher(UUID ID, String teacher_code, String names, EQualification qualification) {
+    public Teacher(Long ID, String teacher_code, String names, EQualification qualification) {
         this.ID = ID;
         this.teacher_code = teacher_code;
         this.names = names;
         this.qualification = qualification;
     }
 
-    public UUID getID() {
+    public Long getID() {
         return ID;
     }
 
-    public void setID(UUID ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 

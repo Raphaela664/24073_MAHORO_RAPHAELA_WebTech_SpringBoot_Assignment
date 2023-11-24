@@ -1,8 +1,6 @@
 package auca.com.crudd.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -10,19 +8,26 @@ import java.util.UUID;
 @Entity
 public class StudentCourse {
     @Id
-    private UUID studentcourse_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long studentcourse_id;
     private int credits;
 
     private BigDecimal results;
     @ManyToOne
+    @JoinColumn(name="course_id")
     private Course course;
     @ManyToOne
+    @JoinColumn(name = "reg_no")
     private StudentRegistration studentRegistration;
 
     public StudentCourse() {
     }
 
-    public StudentCourse(UUID studentcourse_id, int credits, BigDecimal results, Course course, StudentRegistration studentRegistration) {
+    public StudentCourse(StudentRegistration studentRegistration) {
+        this.studentRegistration = studentRegistration;
+    }
+
+    public StudentCourse(Long studentcourse_id, int credits, BigDecimal results, Course course, StudentRegistration studentRegistration) {
         this.studentcourse_id = studentcourse_id;
         this.credits = credits;
         this.results = results;
@@ -30,11 +35,11 @@ public class StudentCourse {
         this.studentRegistration = studentRegistration;
     }
 
-    public UUID getStudentcourse_id() {
+    public Long getStudentcourse_id() {
         return studentcourse_id;
     }
 
-    public void setStudentcourse_id(UUID studentcourse_id) {
+    public void setStudentcourse_id(Long studentcourse_id) {
         this.studentcourse_id = studentcourse_id;
     }
 
@@ -69,4 +74,6 @@ public class StudentCourse {
     public void setStudentRegistration(StudentRegistration studentRegistration) {
         this.studentRegistration = studentRegistration;
     }
+
+
 }

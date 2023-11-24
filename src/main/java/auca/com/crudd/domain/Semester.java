@@ -38,6 +38,10 @@ public class Semester {
         this.endDate = endDate;
     }
 
+    public Semester(Long ID) {
+        this.ID = ID;
+    }
+
     public Long getID() {
         return ID;
     }
